@@ -1,0 +1,680 @@
+<link rel="stylesheet" type="text/css" href="customizedStyles.css">
+<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
+<script src="calc.js" language="javascript">
+</script>
+<script src="filters.js" language="javascript">
+</script>
+<!-- calc app -->
+<div id="my-app" class="ag-app-with-sidebar">
+  <!-- Left panel---->
+	<div id="left-column" class="ag-left-menu">
+      <div class = "h1 DINCondensedBold"> CALC </div>
+		  <div ag-as-scrollable class="ag-left-menu-content">
+        <div>
+			    <form class= "form form-horizontal calc-filter-form">
+			 					  <div>
+			 						  <div class="col-md-12"><!---this one ends at 251-->
+			 							  <div class="keyword-search-dotted"></div>
+			 							  <div class="row">
+			 								  <div class="col-md-12">
+			 									  <div class="ag-applied-filters">
+			 										  <div class="accordion-select" role="checkbox" data-placement="bottom"  id="Applied Filters" placeholder="Applied Filters">
+			 											  <div class="accordion-select-title" ng-class="{true:'has-selected-items', false: 'ng-hide'}[FILTERS.length>0]">
+			 												  <a href="#appFilterPanel" aria-label="toggle expand close Applied Filters" ng-click="appFilterCollapse=!appFilterCollapse" data-toggle="collapse">
+                                  <span class="fa fa-minus-circle" ng-class="appFilterCollapse ? 'fa fa-plus-circle ' : 'fa fa-minus-circle'"></span> 
+                                  Applied Filters                                                  
+			 												  </a>
+			 											  </div>
+                              <div id="appFilterPanel" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                  <ul>
+                                    <li ng-repeat="filterCategories in FILTERS">
+                                      <b>{{filterCategories.categoryDisplayName}}</b>
+                                      <ul>
+                                        <li ng-repeat="filter in filterCategories.filters">&nbsp;
+                                          <span tabindex=0 class="fa fa-times-circle-o" ng-click="removeFilter(filterCategories.categoryKey, filter.filterKey, filter.filterScopeRef)"ng-keypress="removeFilterKeyEvent($event,filterCategories.categoryKey, filter.filterKey, filter.filterScopeRef)">
+                                          </span>
+                                          <span>
+                                          {{filter.filterDisplayName}}{{filter.filterScopeRef}}
+                                          </span>
+                                        </li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+			 											</div>
+			 									  </div>
+			 								  </div>
+			 							  </div>
+			 							  <div class= "row">
+			 								  <div class="col-md-12">
+			 									  <label for="EducationLevel" class="sr-only">Education Level</label>
+			 									  <div class="accordion-select" role="checkbox" title="Education Level" 
+                              data-placement="bottom" id="EducationLevel" placeholder="Education Level" >
+			 										    <div class="accordion-select-title" ng-class="{true:'has-selected-items', false: 'null'}[checkCategoryExists('EL')]">
+  														  <a tabindex="0" href="#educationPanel" ng-click="eduExpanded=!eduExpanded" data-toggle="collapse">
+        													<span class="fa fa-plus-circle" ng-class="eduExpanded ? 'fa fa-minus-circle' : 'fa fa-plus-circle'">
+        													</span>      														
+      														Education Level
+    													  </a>
+    												  </div>
+    												  <div id="educationPanel" ng-show="eduExpanded" class="collapse">
+    													  <ul class="accordion-select-options" role="checkbox">
+    														  <li title="High School">
+  															    <a tabindex=0 ng-click="updateSelectedItems('EL','HS','High School')" ng-keypress="updateSelectedItemsKeyEvent($event,'EL','HS','High School')">
+  																    <span class=" fa fa-square-o" ng-class="checkFilterExists('EL','HS')? 'fa fa-check-square-o' : 'fa fa-square-o'">
+         													    </span> High School
+         												    </a>
+           											  </li>
+         											    <li title="Associates">
+                                    <a tabindex=0 ng-click="updateSelectedItems('EL','AA','Associates', '')" ng-keypress="updateSelectedItemsKeyEvent($event,'EL','AA','Associates', '')">
+                                      <span class=" fa fa-square-o" ng-class="checkFilterExists('EL','AA')? 'fa fa-check-square-o' : 'fa fa-square-o'">
+                                      </span> Associates
+                                    </a>
+                                  </li>
+  														    <li title="Bachelors Degree">
+                                    <a tabindex=0 ng-click="updateSelectedItems('EL','BA', 'Bachelors Degree')" ng-keypress="updateSelectedItemsKeyEvent($event, 'EL','BA', 'Bachelors Degree')">
+                                      <span class=" fa fa-square-o" ng-class="checkFilterExists('EL','BA')? 'fa fa-check-square-o' : 'fa fa-square-o'">
+                                      </span> Bachelors Degree
+                                    </a>
+                                  </li>
+         											    <li title="Masters Degree">
+                                    <a tabindex=0 ng-click="updateSelectedItems('EL', 'MA', 'Masters Degree')" ng-keypress="updateSelectedItemsKeyEvent($event,'EL', 'MA', 'Masters Degree')">
+                                      <span class=" fa fa-square-o" ng-class="checkFilterExists('EL','MA')? 'fa fa-check-square-o' : 'fa fa-square-o'">
+                                      </span> Masters Degree
+                                    </a>
+                                  </li>
+         											    <li title="Ph.D">
+                                    <a tabindex=0 ng-click="updateSelectedItems('EL', 'PHD', 'Ph.D')" ng-keypress="updateSelectedItemsKeyEvent($event,'EL', 'PHD', 'Ph.D')">
+                                      <span class=" fa fa-square-o" ng-class="checkFilterExists('EL','PHD')? 'fa fa-check-square-o' : 'fa fa-square-o'">
+                                      </span> Ph.D
+                                    </a>
+                                  </li>
+  													    </ul>
+  												    </div>
+											    </div>
+		 								    </div><!-- div col-md-12-->
+		 							    </div><!--div row-->
+			 							  <div class= "row">
+			 								      <div class="col-md-12">
+			 									      <label for="Experience" class="sr-only">Experience</label>
+			 									      <div class="accordion-select" role="checkbox" title="Experience" data-placement="bottom"  id="Experience" placeholder="Experience">
+			 										      <div class="accordion-select-title" ng-class="{true: 'has-selected-items', false: 'null'}[checkCategoryExists('EX')]"> 
+  														    <a tabindex="0" href="#experiencePanel" aria-label="Toggle Expand Close Experience" style="" ng-click="expExpanded=!expExpanded" ng-dblclick="expExpanded=!expExpanded" data-toggle="collapse">
+      														  <span class="fa fa-plus-circle" 
+      															ng-class="expExpanded ? 'fa fa-minus-circle' : 'fa fa-plus-circle'">
+      														  </span>
+      														  Experience
+    													    </a>                              
+    												    </div>
+    												    <div id ="experiencePanel" class="panel-collapse collapse">
+													        <div class="panel-body">
+													           	Min 
+														        <select ng-model="minExp" name="minExp" style="width: 50px;" ng-options ="minExp for minExp in range(0,maxExp)" value="{{minExp}}" ng-change="updateSelectedItems('EX','MIN', 'Min Experience : ', minExp)" > {{minExp}}                                          
+														        </select>
+														        <span>
+													        	Max
+														          <select ng-model="maxExp" name="maxExp" style="width: 55px;" ng-options ="maxExp for maxExp in range(minExp,45)" value="{{maxExp}}" ng-change="updateSelectedItems('EX','MAX','Max. Experience : ', maxExp)"> {{maxExp}}                                          
+                                      </select>
+														        </span>
+													        </div>
+													      </div>
+												      </div>
+			 								      </div><!-- div col-md-12-->
+			 							  </div><!--div row-->			 							
+	 							      <div class= "row">
+	 								      <div class="col-md-12">
+	 									      <label for="WorkSite" class="sr-only">Work Site</label>								
+  			 									<div class="accordion-select" role="checkbox" title="Work Site" data-placement="bottom"  id="Work Site" placeholder="Work Site"> 
+  			 										<div class="accordion-select-title" ng-class="{true: 'has-selected-items', false: 'null'}[checkCategoryExists('WS')]"> 
+                            	<a tabindex="0" href="#WorkSitePanel" 
+                                   aria-label="Toggle Expand Close Work Site" 
+                                   style="" ng-click="workExpanded=!workExpanded" ng-dblclick="workExpanded=!workExpanded" 
+                                   data-toggle="collapse">
+        												<span class = "fa fa-plus-circle" 
+        														ng-class = "workExpanded ? 'fa fa-minus-circle' : 'fa fa-plus-circle'">
+        												</span>
+        													Work Site
+      												</a>
+												    </div>
+												    <div id="WorkSitePanel" class="panel-collapse collapse">
+    													<div class="panel-body">
+                                <select ng-model="workSite" ng-change="updateSelectedItems('WS','WS','', workSite)" name="workSite" style="width: 170px;">
+                                 <option value="" disabled selected>Select your option</option>
+                                  <option value="Customer">Customer</option>
+                                  <option value="Contractor">Contractor</option>
+                                  <option value="Both">Both</option>
+                                </select>
+                              </div>
+										        </div>
+                          </div>
+		 								    </div><!-- div col-md-12-->
+		 							    </div><!--div row-->
+  			 							<div class= "row">
+  			 								<div class="col-md-12">
+  			 									<label for="BusinessSize" class="sr-only">BusinessSize</label>
+  			 									<div class="accordion-select" role="checkbox" title="Business Size" data-placement="bottom"  id="Business Size" placeholder="Business Size" >
+  			 										<div class="accordion-select-title" ng-class="{true: 'has-selected-items', false: 'null'}[checkCategoryExists('BIZSZ')]">
+    													<a tabindex="0" href="#BusinessSizePanel" aria-label="Toggle Expand Close Business Size" style="" ng-click="busExpanded = !busExpanded" ng-dblclick="busExpanded = !busExpanded" data-toggle="collapse">
+        												<span class="fa fa-plus-circle" 
+        															ng-class="busExpanded ? 'fa fa-minus-circle' : 'fa fa-plus-circle'">
+        												</span>
+        												Business Size
+                              </a>
+      											</div>
+												    <div id="BusinessSizePanel" class="panel-collapse collapse">
+    													<div class="panel-body">
+                                <select ng-model="busSize" ng-change="setBusinessSizeString(busSize)" name="busSize" style="width: 170px;">
+                                  <option value="" disabled selected>Select your option</option>
+                                  <option value="s">Small business</option>
+                                  <option value="o">Other than small</option>
+                                </select>
+                              </div>
+    												</div>
+											    </div>
+		 								    </div><!-- div col-md-12-->
+		 							    </div><!--div row-->
+  			 							<div class= "row">
+  			 								<div class="col-md-12">
+  			 									<label for="SINSchedule" class="sr-only">SIN/Schedule</label>
+                          <div class="accordion-select" role="checkbox" title="SIN/Schedule" data-placement="bottom"  id="SIN/Schedule" placeholder="SIN/Schedule">
+  			 										<div class="accordion-select-title" ng-class="{true: 'has-selected-items', false: 'null'}[checkCategoryExists('SIN')]">
+        
+  														<a tabindex="0" 
+                              href="#SINSchedulePanel" 
+                              aria-label="Toggle Expand Close SIN/Schedule" 
+                              ng-click="sinExpanded = !sinExpanded" 
+                              ng-dblclick="sinExpanded = !sinExpanded"
+                              data-toggle="collapse">
+      													<span class="fa fa-plus-circle" 
+      														ng-class="sinExpanded ? 'fa fa-minus-circle' : 'fa fa-plus-circle'">
+      													</span>
+      													SIN/Schedule
+    													</a>
+														    <span class="accordion-select-help help ag-help " data-item="help" data-collection="helpData">
+													      <a class="btn btn-micro" bs-popover="" title="SIN/Schedule" content='<p>For details on each SIN / Schedule, check out their descriptions on the <a href="#/applet/Calc-About" target="_blank" onclick="onSINClick();">About Page</a></p>' auto-close="true" template-url="scripts/components/directives/help/popover-template.html" placement="top" html="true" id="help-bubble" container=".help-container" href="javascript:;" tabindex="0" >
+													        <i class="fa fa-question-circle">
+													        </i>
+													      </a>
+												      </span>
+												    </div>
+												    <div id="SINSchedulePanel" class="panel-collapse collapse">
+													    <div class="panel-body">
+                                <select ng-model="schedule" ng-change="updateSelectedItems('SIN','SIN','', schedule)" name="schedule" style="width: 170px;">
+                                  <option value="" disabled selected>Select your option</option>
+                                  <option value="Environmental">899 - Legacy Environment</option>
+                                  <option value="Logistics">87405 - Legacy Logistics</option>
+                                  <option value="MOBIS">874- Legacy MOBIS</option>
+                                  <option value="PES">871- Legacy PES</option>
+                                  <option value="Language Services">73802- Legacy Language</option>
+                                  <option value="AIMS">541- Legacy AIMS</option>
+                                  <option value="FABS">520- Legacy FABS</option>
+                                  <option value="IT Schedule 70">132- IT 70</option>
+                                  <option value="Consolidated">Consolidated</option>
+                                </select>
+                              </div>
+												    </div>
+										      </div>
+	 								      </div><!-- div col-md-12-->
+	 							      </div><!--div row-->
+	 						        <div class= "row">
+	 								      <div class="col-md-12">
+	 									      <label for="ContractYear" class="sr-only">Contract Year</label>
+	 							          <div class="accordion-select" role="checkbox" title="Contract Year" placeholder="Contract Year">
+	 										      <div class="accordion-select-title" ng-class="{true: 'has-selected-items', false: 'null'}[checkCategoryExists('CY')]">
+													    <a tabindex="0" href="#ContractYearPanel" aria-label="Toggle Expand Close Contract Year" ng-click="contExpanded =!contExpanded" 
+                              ng-dblclick="contExpanded =!contExpanded"style="" data-toggle="collapse">
+    														<span class="fa fa-plus-circle"	ng-class="contExpanded ? 'fa fa-minus-circle' : 'fa fa-plus-circle'">
+    														</span>
+  														  Contract Year
+													    </a>
+														    <span class="accordion-select-help help ag-help " data-item="help" data-collection="helpData">
+  															<a class="btn btn-micro" bs-popover="" title="Contract Year" content='<p>All five years of pricing are avaialble in export</p>' auto-close="true" placement="top" html="true" id="help-bubble" container=".help-container" href="javascript:;" template-url="scripts/components/directives/help/popover-template.html" tabindex="0" >
+  															    <i class="fa fa-question-circle"> </i>
+  															</a>
+												      </span>
+												    </div>
+												    <div id ="ContractYearPanel" class="panel-collapse collapse">
+											        <div class="panel-body">
+											          <select ng-model="contractYear" name="contractYear" style="width: 170px;" ng-change="swapPrice(contractYear)">
+                                  <!--option value="" disabled selected>Select your option</option-->
+  														    <option value="current_price" selected>Current Year</option>
+  														    <option value="next_year_price">+1</option>
+  														    <option value="second_year_price">+2</option>
+														    </select>
+                              </div>
+											      </div>
+										      </div>
+	 								      </div><!-- div col-md-12-->
+	 							      </div><!--div row-->	
+      								<div class="col-md-12 ">
+							            	<div class="col-md-12" style="margin-top: 10px;">
+                              <!--a class="csv-results" ng-href="{{exportData()}}">Download CSV</a-->
+							                <button class="btn btn-primary" id="export-search-results" type="button" title="Export CSV" ng-click="exportData()">
+							                	<span class="fa fa-download"></span>
+							                	<span class="csv-results">Export CSV</span>
+							              	</button>		
+                              <a ng-href="{{csvDownloadAnchorLink}}" id="csvDownloadAnchorElement"></a>				  
+							              </div>
+							        </div>
+			 						  </div><!---this one ends at 251-->
+			 					  </div>
+			    </form>
+        </div>
+      </div><!--ag-as-scrollable-->
+  </div> <!--div left column-->
+
+	<!--Main content-->
+	<div id="main-content" class="ag-main-content">
+	  <!--header-->
+		<header>
+			<div class="ag_color-primary-one container-fluid">
+				<div class="display-line row ">
+					<div class="col-md-1">
+					</div>
+					<div class="col-md-5">
+						<a href="javascript:location.reload(true);" onclick = "onLogoClick();">
+					   	<img src="calc_logo.png" class= "calclogo img-responsive pull-left " 
+					   			 alt="CALC: Contract Awarded Labor Category Tool"
+					   			 title="Calc logo">
+					   	</img> 
+					  </a>
+					</div>
+          <div class="col-md-4"> 
+          </div> 
+          <div class="col-md-2"> <small>This website is in beta.</small>
+          </div>  
+				</div>
+				<div class="display-line row" >
+					<div class="col-md-1">
+					</div>
+					<div class=" h2 col-md-6 ">
+						<!--description main-->
+						Search awarded ceiling rates for labor categories
+						<h4 class="body-text text-left">
+							CALC lets you conduct market research on professional service labor categories quickly and easily, helping you make better informed decisions. Results shown are awarded hourly rates from GSA IDIQ service schedules. Click
+          
+              <a ng-href="#/applet/Calc-About" target="_blank" style="color:white;" onclick="onAboutClick();"><u>here</u>
+              </a>to learn more about CALC.
+          	</h4>
+          </div>  
+          <div class="col-md-1">
+          </div>
+					<div class="col-md-3 body-text">
+					  <h3>
+					    CALC offers...
+					  </h3>
+					  <div class="hr"></div>
+				    <div class="h5">
+					    <div class="text-left body-text">
+					    	<img src="roof.png" width="35" height="20" background-size="30px" alt=""> Ceiling Prices
+					    </div>
+        			<div class="text-left body-text">
+        				<img src="mule.png" width="35" height="20" background-size="30px" alt=""> Fully burdened costs
+        			</div>
+        			<div class="text-left body-text">
+        				<img src="briefcase.png" width="35" height="20" background-size="30px" alt=""> Services data
+        			</div>
+        			<div class="text-left body-text"> 
+        				<img src="globe.png" width="35" height="20" background-size="30px" alt=""> Worldwide rates
+        			</div>
+        		</div>
+          </div>  
+        </div>
+      </div>
+    </header>
+
+		<main id="main">
+			<div  class="container-fluid typeahead-demo">
+				<script type="text/ng-template" id="customTemplate.html">
+				  <a>
+				      <span ng-bind-html="match.model.labor_category | uibTypeaheadHighlight:query"></span>
+				      
+				      <span ng-bind-html="match.model.count | uibTypeaheadHighlight:query" ></span>
+				  </a>
+				</script>
+
+				<!--<script type="text/ng-template" id="customPopupTemplate.html">
+				  <div class="custom-popup-wrapper"
+				     ng-style="{top: position().top+'px', left: position().left+'px'}"
+				     style="display: block;"
+				     ng-show="isOpen() && !moveInProgress"
+				     aria-hidden="{{!isOpen()}}">
+				    <p class="message">select location from drop down.</p>
+
+				    <ul class="dropdown-menu" role="listbox">
+				      <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
+				        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+				        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+				      </li>
+				    </ul>
+				  </div>
+				</script>-->
+
+				<!--search form -->
+				<form >
+					<section class=" ">
+						<div class="row">
+							<div class="col-md-1">
+							</div>
+							<div class="col-md-11 ">
+								<div class="h4 body-text search-description search-Critieria">
+									Enter your search terms below, separated by commas. (For example: Engineer, Consultant)
+								</div>
+                <!--Modal-->
+                <div class="modal fadeIn text-justify" id="theModal" role="dialog">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                                          
+                    </div>
+                  </div>
+                </div>
+								<div class="row">
+									<div class="col-md-5">
+                    <input type="text" id="category_search" class="form-control predictiveSearchMainInput body-text" ng-model="labor_category" bs-options="category.labor_category for category in fetchCategories($viewValue)" ng-keypress="processCategorySelectionKeyEvents($event)" ng-blur="doClick('search')" ng-change="fetchCategorySelected()" placeholder="Type a labor category" title="Type a labor category" bs-typeahead >
+										<!--<input 
+											type="text"
+											id="category_search" 
+											title="Type a labor category"
+											placeholder="Type a labor category" 
+											value="" 
+											autocomplete="off"
+											ng-model="labor_category" 
+											uib-typeahead="category.labor_category for category in fetchCategories($viewValue)" 
+											typeahead-loading="loadingCategories" 
+											typeahead-no-results="noResults"
+											typeahead-on-select="fetchCategorySelected($item, $model, $label, $event)"
+											typeahead-wait-ms="500"
+											typeahead-focus-first="false"
+											typeahead-template-url="customTemplate.html"
+											ng-keypress="processCategorySelectionKeyEvents($event)"
+                      ng-blur="doClick('search')"
+											class="form-control predictiveSearchMainInput body-text">-->
+										</input>
+							    	</div>
+									
+									<!-- search /clear button -->
+									<div class="col-md-7">
+										<button 
+									        class="btn btn-primary"
+									        ng-click="doClick('search')"
+									        value="search"
+									        type="button"
+									        title="Search">
+									        SEARCH
+									    </button>
+
+					    			    <input
+								            class="btn btn-clear-solution"
+								            type="reset"
+								            ng-click="doClick('clear')"
+								            value="CLEAR SEARCH"
+								            title="Clear">						            
+								        </input>
+					    			</div>
+								</div>	
+
+								<!--radio Buttons-->
+								<div class="container-fluid ">
+									<div class="row">
+										<div class="col-md-12">
+											<span class="h4">
+												<input 
+													class="radio-inline radio-inline-align"
+													id="query_type_match_all" 
+													name="queryType" 
+													value="match_all" 
+													title="Contains words"
+													ng-model="query_type"
+													ng-change="doClick('query_type_change')"
+													type="radio"
+													checked>
+												<label for ="query_type_match_all" class="search-Critieria">Contains words
+												</label>
+											</span>
+											<span class="h4 search-Critieria">	
+												<input 
+													class="radio-inline radio-inline-align"
+													id="query_type_match_exact" 
+													name="queryType" 
+													value="match_exact" 
+													title="Exact match"
+													ng-model="query_type"
+													ng-change="doClick('query_type_change')"
+													type="radio">
+												<label for="query_type_match_exact">
+													Exact match
+												</label>
+											</span>
+										</div>
+									</div>
+								</div>
+
+								<div ng-if ="labor_category" class= "h4 search-description" tabindex="-1" id="rateCount"> 
+									Showing <span ng-if="count < 200"> {{count}} 
+											</span> 
+											<span ng-if="count == 200 || count >200 "> 200
+											</span>
+									of <b> {{count | number}} </b> 
+                  results with <b>{{labor_category}}</b>
+                </div>
+
+								<div ng-hide ="labor_category" class= "h4 search-description" tabindex="-1" id="rateCount"> Showing <span ng-if="count> 200 || count==200">200 </span> <span ng-if =" count < 200" >{{count}} </span>
+                  of <b><span ng-if="count < 200" > {{count | number}} </span>
+                        <span ng-if="count == 200 || count >200 "> {{count | number}} </span>
+                      </b>results 
+                </div>
+							</div>
+						</div>
+					</section>
+				</form>
+
+        <!-- High charts graph-->
+        
+
+        <div class="container">
+          <div class ="row">
+            <div class="col-md-1"> </div>
+            <div class="col-md-11">  
+              <ag-visualization-chart id="container">placement for graphs
+              </ag-visualization-chart>
+            </div>  
+          </div>
+          <div class="row "> 
+            <div class="col-md-1"> </div>
+            <div class="col-md-3  h4 solution-type contract-type text-center"> Standard Deviation -1 <br>
+              ${{average - first_standard_deviation |number : 0}} 
+            </div> 
+            <div class="col-md-2  h4 solution-type contract-type strong text-center"> <strong>Average</strong>
+              <br>${{average |number : 0}} 
+            </div> 
+            <div class="col-md-3  h4 solution-type contract-type text-center"> Standard Deviation +1
+              <br>${{average + first_standard_deviation |number : 0}}
+            </div> 
+          </div>
+        </div>
+				
+				<!-- Search table results-->	
+				<div class="container-fluid">
+          <div class="row">
+            <div class="col-md-1"> </div>
+            <div class= "body-text col-md-10 search-description">The rates shown here are fully burdened, applicable worldwide, and representative of the current fiscal year. This data represents rates awarded at the master contract level.
+            </div>
+          </div>
+					<div class="row">
+						<div class="col-md-1">
+				        </div>
+				        <span ng-show = "excludedList.length"  ng-click= "restoreRecord()" class= "small" title="Restore Row(s)"> 
+				        	<u> <b> *RESTORE {{excludedList.length}} {{excludedList.length == 1 ? "row" : "rows"}} </b> 
+				        </span>
+					</div>	
+					<div class="row search-results search-description">
+						<div class="col-md-1">
+				        </div>
+				        <div class="col-md-10 show-results">
+				        	<div class="table-responsive">
+								<table name="searchTable" id ="searchTable" class= "table table-striped table-hover ">
+							    	<thead>
+							    		<tr class="small">		
+							    			<th class="col-md-1">
+							    			</th>		    			
+										    <th tabindex="0" class="col-md-3 labor_category rate-header"
+										    	title="Labor Category : Select to sort"
+										  		ng-click="sortRates('labor_category')"
+										  		ng-keypress="sortByCategoryKeyEvent($event, 'labor_category')">
+										    	<u>Labor Category</u> 
+										    	<span ng-show="sortType == 'labor_category' && sortDescending == false" 
+										        	  class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'labor_category' && sortDescending == true" 
+										              class="fa fa-caret-down">
+										        </span>	
+										    </th>
+										    <th tabindex="0"
+										    	class="col-md-1 education_level rate-header"
+										    	title="Minimum Years of Education : Select to sort"
+										    	ng-click="sortRates('education_level')"
+										    	ng-keypress="sortByCategoryKeyEvent($event, 'education_level')">
+										    	<u>Min Edu. </u>
+										    	<span ng-show="sortType == 'education_level' && !sortDescending" 
+										        	  	class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'education_level' && sortDescending" 
+										              	class="fa fa-caret-down">
+										        </span>	
+										    </th>
+										    <th tabindex="0"
+										    	class="col-md-2 min_years_experience rate-header"
+										    	title="Minimum Years of Experience : Select to sort" 
+										    	ng-click="sortRates('min_years_experience')"
+										    	ng-keypress="sortByCategoryKeyEvent($event, 'min_years_experience')">
+										    	<u>Experience</u> 
+										    	<span ng-show="sortType == 'min_years_experience' && !sortDescending" 
+										        	class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'min_years_experience' && sortDescending" 
+										              	class="fa fa-caret-down">
+										        </span>	
+										    </th>
+										    <th tabindex="0"
+										    	class="col-md-1 current_price rate-header"
+										    	title="Ceiling Price : Select to sort" 
+										    	ng-click="sortRates('current_price')"
+										    	ng-keypress="sortByCategoryKeyEvent($event, 'current_price')">
+										        <u>Price </u>
+										        <span ng-show="sortType == 'current_price' && !sortDescending" 
+										        	  	class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'current_price' && sortDescending" 
+										              	class="fa fa-caret-down">
+										        </span>							        
+										    </th>
+										    <th tabindex="0"
+										    	class="col-md-1 idv_piid rate-header"
+										    	title="Contract Number : Select to sort"
+										    	ng-click="sortRates('idv_piid')"
+										    	ng-keypress="sortByCategoryKeyEvent($event, 'idv_piid')">
+										    	<u>Contract# </u>
+												<span ng-show="sortType == 'idv_piid' && !sortDescending" 
+										        		class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'idv_piid' && sortDescending" 
+										              	class="fa fa-caret-down">
+										        </span>	
+										    </th>
+										    <th tabindex="0"
+										    	class="col-md-2 vendor_name rate-header"
+										    	title="Vendor : Select to sort"
+										    	ng-click="sortRates('vendor_name')"
+										    	ng-keypress="sortByCategoryKeyEvent($event, 'vendor_name')">
+										    	<u>Vendor </u>
+										    	<span ng-show="sortType == 'vendor_name' && !sortDescending" 
+										        		class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'vendor_name' && sortDescending" 
+										              class="fa fa-caret-down">
+										        </span>	
+										    </th>
+										    <th tabindex="0"
+										    	class="col-md-1 schedule rate-header"
+										    	title="Schedule : Select to sort"
+										    	ng-click="sortRates('schedule')"
+										    	ng-keypress="sortByCategoryKeyEvent($event, 'schedule')">
+										    	<u>Schedule </u> 
+										    	<span ng-show="sortType == 'schedule' && !sortDescending" 
+										        		class="fa fa-caret-up">
+										        </span>
+										        <span ng-show="sortType == 'schedule' && sortDescending" 
+										              	class="fa fa-caret-down">
+										        </span>	
+
+										    </th>
+										</tr>
+								    </thead>
+							        <tbody>
+								       <tr class="small" 
+								       		ng-mouseover="hoverIn()" 
+								       		ng-mouseleave="hoverOut()" 
+								       		ng-repeat="rate in rates.results | limitTo: 200 |filter: {isExcluded:false }">
+								       		<td>
+								       			<span title="Exclude {{rate.labor_category}} from your search" class="fa fa-remove" ng-click="excludeRecord(rate)"> 
+								       			</span> 
+								       		</td>
+								        	<td class="labor_category" style="word-wrap: break-word;min-width: 80px;max-width: 80px;white-space:normal">  
+								        	
+								        	  {{ rate.labor_category }} 
+									        </td>
+									        
+									        <td class="education_level">
+									          {{ rate.education_level == null ? "N/A": rate.education_level}}
+									        </td>
+									        <td class="min_years_experience">
+									          {{ rate.min_years_experience }}
+									          <span ng-show="years" class="animate-show">
+								             {{ rate.min_years_experience == 1 ? "year": "years"}}
+								                
+								            </span>
+									        </td>
+									        <td class="current_price">
+									         ${{ rate.price | number : 2 }}
+									        </td>
+									        <td class="idv_piid">
+									        <a href="https://www.gsaadvantage.gov/ref_text/{{rate.idv_piid_link}}/{{rate.idv_piid_link}}_online.htm" target="_blank" onclick="callTrackingOnContractDownload(rate.labor_category, rate.idv_piid);">
+									        	<u> {{ rate.idv_piid }}</u>
+									        	<span class="fa fa-file"> </span> 
+									        </a>
+									        </td>
+									        <td class="vendor_name">
+									          {{ rate.vendor_name }}
+									        </td>
+									        <td class="schedule">
+									          {{ rate.schedule }}
+									        </td>
+								        </tr>
+								    </tbody>
+								</table>
+								<a tabindex= 0 onclick="javascript:document.getElementById('rateCount').focus();" ><u>Return to the top</u></a>
+							</div> 
+						</div>   <!--div col-md-8-->
+						<div class="col-md-1">
+				    	</div>
+				    </div><!--div row-->
+				</div>			
+			</div><!--div ng-app-->
+		</main>
+
+		<footer>
+			<div class="AG-Footer">
+				<div class= "topic-footer text-center">
+					<p class="dd ">Get in touch. We're always looking for feedback on CALC! 
+						<br>To share your thoughts, email us at 
+				    	<a href="mailto:calc@gsa.gov" onclick="onFeedbackClick();">calc@gsa.gov</a>.
+				    </p>		
+				</div>    
+			</div>
+		</footer>
+	</div><!--div Main content-->
+</div><!--div my-app-->
